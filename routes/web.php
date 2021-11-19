@@ -27,3 +27,14 @@ Route::post('/produtos/editar/{id}', 'App\Http\Controllers\ProdutosController@up
 
 Route::get('produtos/excluir/{id}', 'App\Http\Controllers\ProdutosController@delete');
 Route::post('produtos/excluir/{id}', 'App\Http\Controllers\ProdutosController@destroy')->name('excluir-produto');
+//////////////
+Route::get('/usuarios/create', 'App\Http\Controllers\UsuariosController@create');
+Route::post('/usuarios/create', 'App\Http\Controllers\UsuariosController@store')->name('cadastrar-usuario');
+
+Route::get('/usuarios/read/{id}', 'App\Http\Controllers\UsuariosController@read');
+
+Route::get('/usuarios/update/{id}', 'App\Http\Controllers\UsuariosController@edit');
+Route::post('/usuarios/update/{id}', 'App\Http\Controllers\UsuariosController@update')->name('alterar-usuario');
+
+Route::get('usuarios/delete/{id}', 'App\Http\Controllers\UsuariosController@delete');
+Route::post('usuarios/delete/{id}', 'App\Http\Controllers\UsuariosController@destroy')->name('excluir-usuario');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComentariosTable extends Migration
+class CreateUsuarioCurtePublicacoesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,16 @@ class CreateComentariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('comentarios', function (Blueprint $table) {
+        Schema::create('usuario_curte__publicacoes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_usuario');
-            $table->unsignedBigInteger('id_ideia');
-            $table->string('comentario');
-            $table->string('qtd_curtidas');
+            $table->unsignedBigInteger('id_publicacao');
             $table->timestamps();
         });
 
-        Schema::table('comentarios', function (Blueprint $table) {
+        Schema::table('usuario_curte_publicacoes', function (Blueprint $table) {
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreign('id_ideia')->references('id')->on('ideias')->onDelete('cascade');
+            $table->foreign('id_publicacao')->references('id')->on('publicacaos')->onDelete('cascade');
         });
     }
 
@@ -35,6 +33,6 @@ class CreateComentariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comentarios');
+        Schema::dropIfExists('usuario_curte__ideias');
     }
 }

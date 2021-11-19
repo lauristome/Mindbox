@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
 {
-    public function ideias()
+    public function publicacoes()
     {
-        return $this->hasMany(Ideia::class, 'id_usuario');
+        return $this->hasMany(Publicacao::class, 'id_usuario');
     }
 
     public function trofeus()
@@ -17,9 +17,9 @@ class Usuario extends Model
         return $this->belongsToMany(Trofeu::class, 'trofeu_usuarios', 'id_usuario', 'id_trofeu');
     }
 
-    public function comentarios()
+    public function curtidas()
     {
-        return $this->belongsToMany(Ideia::class, 'comentarios', 'id_usuario', 'id_ideia');
+        return $this->belongsToMany(Publicacao::class, 'usuario_curte_publicacoes', 'id_usuario', 'id_publicacao');
     }
 
     protected $fillable = ['nome', 'email', 'senha', 'biografia'];
