@@ -23,6 +23,6 @@ class Publicacao extends Model
         return $this->belongsToMany(Usuario::class, 'usuario_denuncia_publicacaos', 'id_publicacao', 'id_usuario');
     }
 
-    protected $fillable = ['id_usuario', 'id_publicacao', 'conteudo', 'qtd_curtidas'];
+    protected $fillable = ['id_usuario', 'id_publicacao', 'conteudo', 'ups', 'downs'];
     use HasFactory;
 }

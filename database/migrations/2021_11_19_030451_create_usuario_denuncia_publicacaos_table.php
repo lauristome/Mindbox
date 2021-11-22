@@ -34,6 +34,6 @@ class CreateUsuarioDenunciaPublicacaosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuario_denuncia__publicacaos');
+        Schema::dropIfExists('usuario_denuncia_publicacaos');
     }
 }

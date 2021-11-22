@@ -22,6 +22,11 @@ class Usuario extends Model
         return $this->belongsToMany(Publicacao::class, 'usuario_curte_publicacoes', 'id_usuario', 'id_publicacao');
     }
 
+    public function seguindo()
+    {
+        return $this->belongsToMany(Usuario::class, 'usuario_segue_usuarios', 'id_usuario', 'id_seguido');
+    }
+
     protected $fillable = ['nome', 'email', 'senha', 'biografia'];
     use HasFactory;
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePublicacaosTable extends Migration
+class CreateUsuarioSegueUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,16 @@ class CreatePublicacaosTable extends Migration
      */
     public function up()
     {
-        Schema::create('publicacaos', function (Blueprint $table) {
+        Schema::create('usuario_segue_usuarios', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_usuario');
-            $table->unsignedBigInteger('id_publicacao')->nullable();
-            $table->string('conteudo');
-            $table->string('ups')->default(0);
-            $table->string('downs')->default(0);
+            $table->unsignedBigInteger('id_seguido');
             $table->timestamps();
         });
 
-        Schema::table('publicacoes', function (Blueprint $table) {
+        Schema::table('usuario_segue_usuarios', function (Blueprint $table) {
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreign('id_publicacao')->references('id')->on('publicacoes')->onDelete('cascade');
+            $table->foreign('id_seguido')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 
@@ -36,6 +33,6 @@ class CreatePublicacaosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('publicacaos');
+        Schema::dropIfExists('usuario_segue_usuarios');
     }
 }
