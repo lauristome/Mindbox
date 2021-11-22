@@ -3,10 +3,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Example Component</div>
+                    <div class="card-header">Ambientando Vue no Laravel =)</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        <input type= "text" v-model="test">
+
+                        {{ test }}
                     </div>
                 </div>
             </div>
@@ -16,6 +18,11 @@
 
 <script>
     export default {
+        data: () =>{
+            return {
+                test:''
+            }
+        },
         mounted() {
             console.log('Component mounted.')
         }
