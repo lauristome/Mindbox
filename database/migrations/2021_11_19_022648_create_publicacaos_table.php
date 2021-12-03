@@ -20,6 +20,7 @@ class CreatePublicacaosTable extends Migration
             $table->string('conteudo');
             $table->string('ups')->default(0);
             $table->string('downs')->default(0);
+            $table->string('qtd_comentarios')->default(0);
             $table->timestamps();
         });
 

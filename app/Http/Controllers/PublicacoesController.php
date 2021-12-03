@@ -3,36 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Models\Publicacao;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
 class PublicacoesController extends Controller
 {
-    public function create()
+    public function listComentarios($id)
     {
-        return view('publicacoes.create');
+        $publicacao = Publicacao::find($id);
+
+        $comentarios = $publicacao->comentarios()->orderBy("id", "desc")->get();
+        return $comentarios;
+    }
+
+    public function ranking()
+    {
+        $publicacao = Publicacao::all();
+        $unsortedData = collect($publicacao);
+
+        $sortedData = $unsortedData->sortByDesc('ups');
+        return $sortedData;
     }
 
     public function store(Request $request)
     {
-        Publicacao::create([
+        $new_publicacao = Publicacao::create([
             'id_usuario' => $request->id_usuario,
             'id_publicacao' => $request->id_publicacao,
             'conteudo' => $request->conteudo,
         ]);
 
-        return "Publicação cadastrada!";
+        if (!$request->id_publicacao == null) {
+            $publicacao = Publicacao::find($request->id_publicacao);
+            // return ($publicacao->qtd_comentarios) + 1;
+            $publicacao->update([
+                'qtd_comentarios' => ($publicacao->qtd_comentarios) + 1
+            ]);
+        }
+
+        return Response::json(['Publicação criada!', $new_publicacao]);
     }
 
     public function read($id)
     {
         $publicacao = Publicacao::findOrFail($id);
-        return view('publicacoes.show', ['publicacao' => $publicacao]);
-    }
-
-    public function edit($id)
-    {
-        $publicacao = Publicacao::findOrFail($id);
-        return view('publicacoes.edit', ['publicacao' => $publicacao]);
+        return $publicacao;
     }
 
     public function update(Request $request, $id)
@@ -46,12 +61,6 @@ class PublicacoesController extends Controller
         ]);
 
         return "Publicação atualizada!";
-    }
-
-    public function delete($id)
-    {
-        $publicacao = Publicacao::findorFail($id);
-        return view('publicacoes.delete', ['publicacao' => $publicacao]);
     }
 
     public function destroy($id)

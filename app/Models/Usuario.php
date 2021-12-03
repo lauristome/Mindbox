@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Usuario extends Model
+class Usuario extends \Illuminate\Foundation\Auth\User
 {
     public function publicacoes()
     {
@@ -27,6 +24,10 @@ class Usuario extends Model
         return $this->belongsToMany(Usuario::class, 'usuario_segue_usuarios', 'id_usuario', 'id_seguido');
     }
 
+    public function getAuthPassword()
+    {
+        return $this->senha;
+    }
+
     protected $fillable = ['nome', 'email', 'senha', 'biografia'];
-    use HasFactory;
 }

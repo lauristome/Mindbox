@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Trofeu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class TrofeusController extends Controller
 {
@@ -14,24 +15,18 @@ class TrofeusController extends Controller
 
     public function store(Request $request)
     {
-        Trofeu::create([
+        $new_trofeu = Trofeu::create([
             'nome' => $request->nome,
             'descricao' => $request->descricao
         ]);
 
-        return "Troféu cadastrado!";
+        return Response::json(['Troféu cadastrado!', $new_trofeu]);
     }
 
     public function read($id)
     {
         $trofeu = Trofeu::findOrFail($id);
-        return view('trofeus.show', ['trofeu' => $trofeu]);
-    }
-
-    public function edit($id)
-    {
-        $trofeu = Trofeu::findOrFail($id);
-        return view('trofeus.edit', ['trofeu' => $trofeu]);
+        return $trofeu;
     }
 
     public function update(Request $request, $id)
@@ -43,13 +38,7 @@ class TrofeusController extends Controller
             'descricao' => $request->descricao,
         ]);
 
-        return "Troféu atualizado!";
-    }
-
-    public function delete($id)
-    {
-        $trofeu = Trofeu::findorFail($id);
-        return view('trofeus.delete', ['trofeu' => $trofeu]);
+        return Response::json(['Troféu atualizado!', $trofeu]);
     }
 
     public function destroy($id)

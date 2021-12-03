@@ -4,35 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function create()
-    {
-        return view('admin.create');
-    }
 
     public function store(Request $request)
     {
-        Admin::create([
+        $new_admin = Admin::create([
             'nome' => $request->nome,
             'email' => $request->email,
-            'senha' => $request->senha,
+            'senha' => Hash::make($request->senha)
         ]);
 
-        return "Administrador cadastrado!";
+        return Response::json(['Administrador cadastrado!', $new_admin]);
     }
 
     public function read($id)
     {
         $admin = Admin::findOrFail($id);
-        return view('admin.show', ['admin' => $admin]);
-    }
-
-    public function edit($id)
-    {
-        $admin = Admin::findOrFail($id);
-        return view('admin.edit', ['admin' => $admin]);
+        return $admin;
     }
 
     public function update(Request $request, $id)
@@ -42,16 +35,10 @@ class AdminController extends Controller
         $admin->update([
             'nome' => $request->nome,
             'email' => $request->email,
-            'senha' => $request->senha,
+            'senha' => Hash::make($request->senha)
         ]);
 
-        return "Administrador atualizado!";
-    }
-
-    public function delete($id)
-    {
-        $admin = Admin::findorFail($id);
-        return view('admin.delete', ['admin' => $admin]);
+        return Response::json(['Administrador atualizado', $admin]);
     }
 
     public function destroy($id)
@@ -60,5 +47,23 @@ class AdminController extends Controller
         $admin->delete();
 
         return "Administrador Excluído!";
+    }
+    protected function guard()
+    {
+        return Auth::guard('admin');
+    }
+
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required',
+            'senha' => 'required',
+        ]);
+
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->senha])) {
+            return "Usuário logado!";
+        } else {
+            return "Senha ou e-mail inválidos";
+        };
     }
 }

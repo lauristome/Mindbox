@@ -5,17 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Publicacao;
 use App\Models\UsuarioCurtePublicacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class CurtidaController extends Controller
 {
-    public function create()
-    {
-        return view('curtidas.create');
-    }
-
     public function store(Request $request)
     {
-        UsuarioCurtePublicacao::create([
+        $new_curtida = UsuarioCurtePublicacao::create([
             'id_usuario' => $request->id_usuario,
             'id_publicacao' => $request->id_publicacao,
             'up' => $request->up,
@@ -32,38 +28,7 @@ class CurtidaController extends Controller
             ]);
         }
 
-        return "Curtida cadastrada!";
-    }
-
-    public function read($id)
-    {
-        $curtida = UsuarioCurtePublicacao::findOrFail($id);
-        return view('curtidas.show', ['curtida' => $curtida]);
-    }
-
-    public function edit($id)
-    {
-        $curtida = UsuarioCurtePublicacao::findOrFail($id);
-        return view('curtidas.edit', ['curtida' => $curtida]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $curtida = UsuarioCurtePublicacao::findOrFail($id);
-
-        $curtida->update([
-            'id_usuario' => $request->id_usuario,
-            'id_publicacao' => $request->id_publicacao,
-            'up' => $request->up,
-        ]);
-
-        return "Curtida atualizada!";
-    }
-
-    public function delete($id)
-    {
-        $curtida = UsuarioCurtePublicacao::findorFail($id);
-        return view('curtidas.delete', ['curtida' => $curtida]);
+        return Response::json(['Curtida registrada', $new_curtida]);
     }
 
     public function destroy($id)
